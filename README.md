@@ -1,6 +1,4 @@
-# SDA-PROJECT---Weather-App
-Semester 04 project. Software Design and Architecture. 
-
+# Software Design and Architecture. Weather App Project.
 
 GROUP MEMBERS: 
 
