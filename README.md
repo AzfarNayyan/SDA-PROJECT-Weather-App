@@ -7,3 +7,4 @@ Anas Khan (22L-7963).
 Bilal Afzal(22L-7889)
 Saim Imran (22L-7906).
 Talha Tofeeq (22L-6190).
+Abdullah Shafqat(22L-7905).
