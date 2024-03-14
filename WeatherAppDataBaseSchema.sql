@@ -32,7 +32,7 @@ CREATE TABLE AirPollutionData (
   nh3 DECIMAL(5,2) DEFAULT NULL,
   FOREIGN KEY (location_id) REFERENCES Locations(id)
 );
-CREATE TABLE ForecastData5days (
+CREATE TABLE ForecastData (
   id INT PRIMARY KEY not null,
   location_id INT NOT NULL,
   forecast_date DATE NOT NULL, 
