@@ -40,5 +40,6 @@ CREATE TABLE ForecastData (
   min_temp DECIMAL(5,2) NOT NULL,
   max_temp DECIMAL(5,2) NOT NULL,
   humidity int NOT NULL,
+  description varchar(50) NOT NULL,
   FOREIGN KEY (location_id) REFERENCES Locations(id)
 );
