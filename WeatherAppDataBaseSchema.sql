@@ -19,6 +19,8 @@ CREATE TABLE CurrentWeatherData (
   sunset TIME NOT NULL,
   FOREIGN KEY (location_id) REFERENCES Locations(id)
 );
+ALTER TABLE CurrentWeatherData
+ADD city VARCHAR(30) NOT NULL;
 
 CREATE TABLE AirPollutionData (
   id INT PRIMARY KEY not null,
