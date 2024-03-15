@@ -14,6 +14,10 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
 public class WeatherAPIHandler {
     
     private String apiKey = "70483fff196e58ca9a25fa29076f0f1e";
