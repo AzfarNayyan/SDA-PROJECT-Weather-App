@@ -1,4 +1,4 @@
-#python code 
+#python API code
 #For each API we have 2 ways (by city name),(By long and lat)
 #for example :
 #1) Current Weather Data
