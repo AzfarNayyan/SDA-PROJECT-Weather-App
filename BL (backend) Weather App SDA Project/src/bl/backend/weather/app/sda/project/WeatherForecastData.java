@@ -3,6 +3,8 @@ package bl.backend.weather.app.sda.project;
 import java.text.DecimalFormat;
 
 
+
+
 public class WeatherForecastData {
     private String forecastDate;
     private String forecastTime;
