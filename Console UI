@@ -1,0 +1,110 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package weatherapplication;
+
+/**
+ *
+ * @author HP
+ */
+import java.util.Scanner;
+
+public class WeatherApp {
+    // Scanner for user input
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        while (true) {
+            // Main menu options
+            System.out.println("\nWeather App Main Menu:");
+            System.out.println("1. Add location by coordinates");
+            System.out.println("2. Add location by city/country name");
+            System.out.println("3. Show current weather conditions");
+            System.out.println("4. Show basic weather information");
+            System.out.println("5. Show sunrise and sunset time");
+            System.out.println("6. Show weather forecast for 5 days");
+            System.out.println("7. Exit");
+
+            // User choice input
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    // Variables for adding location by coordinates
+                    double latitude, longitude;
+                    System.out.print("Enter latitude: ");
+                    latitude = scanner.nextDouble();
+                    System.out.print("Enter longitude: ");
+                    longitude = scanner.nextDouble();
+                    // Call method to add location by coordinates
+                    addLocationByCoordinates(latitude, longitude);
+                    break;
+                case 2:
+                    // Variables for adding location by city name
+                    String city, country;
+                    System.out.print("Enter city: ");
+                    city = scanner.next();
+                    System.out.print("Enter country: ");
+                    country = scanner.next();
+                    // Call method to add location by city name
+                    addLocationByCityName(city, country);
+                    break;
+                case 3:
+                    // Call method to show current weather conditions
+                    showCurrentWeatherConditions();
+                    break;
+                case 4:
+                    // Call method to show basic weather information
+                    showBasicWeatherInfo();
+                    break;
+                case 5:
+                    // Call method to show sunrise and sunset time
+                    showSunriseSunsetTime();
+                    break;
+                case 6:
+                    // Call method to show weather forecast
+                    showWeatherForecast();
+                    break;
+                case 7:
+                    // Exit the program
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void addLocationByCoordinates(double latitude, double longitude) {
+        // Method to add location by coordinates
+        System.out.println("Adding location by coordinates...");
+    }
+
+    private static void addLocationByCityName(String city, String country) {
+        // Method to add location by city name
+        System.out.println("Adding location by city/country name...");
+    }
+
+    private static void showCurrentWeatherConditions() {
+        // Method to show current weather conditions
+        System.out.println("Showing current weather conditions...");
+    }
+
+    private static void showBasicWeatherInfo() {
+        // Method to show basic weather information
+        System.out.println("Showing basic weather information...");
+    }
+
+    private static void showSunriseSunsetTime() {
+        // Method to show sunrise and sunset time
+        System.out.println("Showing sunrise and sunset time...");
+    }
+
+    private static void showWeatherForecast() {
+        // Method to show weather forecast
+        System.out.println("Showing weather forecast for 5 days...");
+    }
+}
+
