@@ -8,23 +8,104 @@ package weatherapplication;
  *
  * @author HP
  */
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class WeatherApp {
     // Scanner for user input
     private static Scanner scanner = new Scanner(System.in);
-
+    
     public static void main(String[] args) {
+        // Ask the user for input preference
+        int inputChoice = getLocationInputChoice();
+        
+        // Get the location based on the user's choice
+        String location = (inputChoice == 1) ? getLocationByCity() : getLocationByCoordinates();
+        
+        // Clear the screen
+        clearScreen();
+        
+        // Display menu options after obtaining location
+        displayMenu(location);
+    }
+    
+   private static int getLocationInputChoice() {
+    while (true) {
+        try {
+            System.out.println("How do you want to input the location?");
+            System.out.println("1. By city name");
+            System.out.println("2. By longitude/latitude");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            if (choice != 1 && choice != 2) {
+                throw new IllegalArgumentException("Invalid input. Please enter 1 or 2.");
+            }
+            return choice;
+        } catch (InputMismatchException e) {
+            // Clear the scanner buffer
+            scanner.nextLine();
+            System.out.println("Error: Invalid input. Please enter a valid integer.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+    
+ private static String getLocationByCity() {
+    clearScreen();
+                scanner.nextLine(); // Consume newline character
+
+    while (true) {
+        try {
+            System.out.print("Enter city name: ");
+            String city = scanner.nextLine();
+            if (city.isEmpty()) {
+                throw new IllegalArgumentException("City name cannot be empty");
+            } else if (city.matches(".*\\d.*")) {
+                throw new IllegalArgumentException("City name cannot contain digits");
+            }
+            return city;
+        } catch (IllegalArgumentException e) {
+            // Handle empty or invalid city name
+            System.out.println("Error: " + e.getMessage());
+            System.out.println("Please enter a valid city name without digits.");
+            System.out.println("Try again:");
+        }
+    }
+}
+
+
+    
+   private static String getLocationByCoordinates() {
+    clearScreen();
+    double latitude = 0, longitude = 0;
+    while (true) {
+        try {
+            System.out.print("Enter latitude: ");
+            latitude = scanner.nextDouble();
+            System.out.print("Enter longitude: ");
+            longitude = scanner.nextDouble();
+            break; // Break out of the loop if input is valid
+        } catch (InputMismatchException e) {
+            // Handle input mismatch exception
+            System.out.println("Error: Invalid input. Please enter valid latitude and longitude values.");
+            scanner.nextLine(); // Consume invalid input
+        }
+    }
+    return "Latitude: " + latitude + ", Longitude: " + longitude;
+}
+
+    
+    private static void displayMenu(String location) {
         while (true) {
             // Main menu options
-            System.out.println("\nWeather App Main Menu:");
-            System.out.println("1. Add location by coordinates");
-            System.out.println("2. Add location by city/country name");
-            System.out.println("3. Show current weather conditions");
-            System.out.println("4. Show basic weather information");
-            System.out.println("5. Show sunrise and sunset time");
-            System.out.println("6. Show weather forecast for 5 days");
-            System.out.println("7. Exit");
+            System.out.println("\nWeather App Main Menu for " + location + ":");
+            System.out.println("1. Show current weather conditions");
+            System.out.println("2. Show basic weather information");
+            System.out.println("3. Show sunrise and sunset time");
+            System.out.println("4. Show weather forecast for 5 days");
+            System.out.println("5. Exit");
 
             // User choice input
             System.out.print("Enter your choice: ");
@@ -32,42 +113,18 @@ public class WeatherApp {
 
             switch (choice) {
                 case 1:
-                    // Variables for adding location by coordinates
-                    double latitude, longitude;
-                    System.out.print("Enter latitude: ");
-                    latitude = scanner.nextDouble();
-                    System.out.print("Enter longitude: ");
-                    longitude = scanner.nextDouble();
-                    // Call method to add location by coordinates
-                    addLocationByCoordinates(latitude, longitude);
+                    showCurrentWeatherConditions(location);
                     break;
                 case 2:
-                    // Variables for adding location by city name
-                    String city, country;
-                    System.out.print("Enter city: ");
-                    city = scanner.next();
-                    System.out.print("Enter country: ");
-                    country = scanner.next();
-                    // Call method to add location by city name
-                    addLocationByCityName(city, country);
+                    showBasicWeatherInfo(location);
                     break;
                 case 3:
-                    // Call method to show current weather conditions
-                    showCurrentWeatherConditions();
+                    showSunriseSunsetTime(location);
                     break;
                 case 4:
-                    // Call method to show basic weather information
-                    showBasicWeatherInfo();
+                    showWeatherForecast(location);
                     break;
                 case 5:
-                    // Call method to show sunrise and sunset time
-                    showSunriseSunsetTime();
-                    break;
-                case 6:
-                    // Call method to show weather forecast
-                    showWeatherForecast();
-                    break;
-                case 7:
                     // Exit the program
                     System.out.println("Exiting...");
                     return;
@@ -77,34 +134,35 @@ public class WeatherApp {
         }
     }
 
-    private static void addLocationByCoordinates(double latitude, double longitude) {
-        // Method to add location by coordinates
-        System.out.println("Adding location by coordinates...");
+    private static void showCurrentWeatherConditions(String location) {
+        // Method to show current weather conditions for the specified location
+        System.out.println("Showing current weather conditions for " + location + "...");
     }
 
-    private static void addLocationByCityName(String city, String country) {
-        // Method to add location by city name
-        System.out.println("Adding location by city/country name...");
+    private static void showBasicWeatherInfo(String location) {
+        // Method to show basic weather information for the specified location
+        System.out.println("Showing basic weather information for " + location + "...");
     }
 
-    private static void showCurrentWeatherConditions() {
-        // Method to show current weather conditions
-        System.out.println("Showing current weather conditions...");
+    private static void showSunriseSunsetTime(String location) {
+        // Method to show sunrise and sunset time for the specified location
+        System.out.println("Showing sunrise and sunset time for " + location + "...");
     }
 
-    private static void showBasicWeatherInfo() {
-        // Method to show basic weather information
-        System.out.println("Showing basic weather information...");
+    private static void showWeatherForecast(String location) {
+        // Method to show weather forecast for 5 days for the specified location
+        System.out.println("Showing weather forecast for 5 days for " + location + "...");
     }
-
-    private static void showSunriseSunsetTime() {
-        // Method to show sunrise and sunset time
-        System.out.println("Showing sunrise and sunset time...");
-    }
-
-    private static void showWeatherForecast() {
-        // Method to show weather forecast
-        System.out.println("Showing weather forecast for 5 days...");
+    
+private static void clearScreen() {
+    for (int i = 0; i < 30; i++) {
+        System.out.println();
     }
 }
+
+}
+ 
+
+
+
 
