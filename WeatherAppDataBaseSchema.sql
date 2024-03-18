@@ -9,7 +9,6 @@ CREATE TABLE Locations (
 CREATE TABLE CurrentWeatherData (
   id INT PRIMARY KEY Not null,
   location_id INT NOT NULL,
-  timestamp DATETIME NOT NULL,
   feels_like DECIMAL(5,2) NOT NULL,
   temperature DECIMAL(5,2) NOT NULL,
   min_temp DECIMAL(5,2) NOT NULL,
