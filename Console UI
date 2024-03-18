@@ -10,6 +10,11 @@ package weatherapplication;
  */
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class WeatherApp {
     // Scanner for user input
@@ -102,13 +107,13 @@ public class WeatherApp {
             // Main menu options
             System.out.println("\nWeather App Main Menu for " + location + ":");
             System.out.println("1. Show current weather conditions");
-            System.out.println("2. Show basic weather information");
-            System.out.println("3. Show sunrise and sunset time");
-            System.out.println("4. Show weather forecast for 5 days");
-            System.out.println("5. Exit");
+            System.out.println("2. Show Air Pollution");
+            System.out.println("3. Show weather forecast for 5 days");
+            System.out.println("4. Exit");
 
             // User choice input
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter you1"
+                    + "r choice: ");
             int choice = scanner.nextInt();
 
             switch (choice) {
@@ -116,15 +121,13 @@ public class WeatherApp {
                     showCurrentWeatherConditions(location);
                     break;
                 case 2:
-                    showBasicWeatherInfo(location);
+                    ShowAirPollutionData(location);
                     break;
+                
                 case 3:
-                    showSunriseSunsetTime(location);
-                    break;
-                case 4:
                     showWeatherForecast(location);
                     break;
-                case 5:
+                case 4:
                     // Exit the program
                     System.out.println("Exiting...");
                     return;
@@ -134,24 +137,87 @@ public class WeatherApp {
         }
     }
 
-    private static void showCurrentWeatherConditions(String location) {
-        // Method to show current weather conditions for the specified location
-        System.out.println("Showing current weather conditions for " + location + "...");
+   public static void showCurrentWeatherConditions(String location) {
+        // Get current date and time
+        Date timestamp = new Date();
+        
+        // Sample weather data 
+        double feelsLike = 25.6;
+        double temperature = 26.8;
+        double minTemp = 22.5;
+        double maxTemp = 30.2;
+        int humidity = 75;
+        Date sunrise = new Date(); // Sample sunrise time
+        Date sunset = new Date();  // Sample sunset time
+        
+        // Format sunrise and sunset times
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+        String sunriseFormatted = timeFormat.format(sunrise);
+        String sunsetFormatted = timeFormat.format(sunset);
+        
+        // Format temperature values
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String feelsLikeFormatted = decimalFormat.format(feelsLike);
+        String temperatureFormatted = decimalFormat.format(temperature);
+        String minTempFormatted = decimalFormat.format(minTemp);
+        String maxTempFormatted = decimalFormat.format(maxTemp);
+        
+        //  weather information string
+        String weatherInfo = "Current weather conditions for " + location + ":\n" +
+                "Timestamp: " + timestamp + "\n" +
+                "Feels Like: " + feelsLikeFormatted + "\n" +
+                "Temperature: " + temperatureFormatted + "\n" +
+                "Min Temperature: " + minTempFormatted + "\n" +
+                "Max Temperature: " + maxTempFormatted + "\n" +
+                "Humidity: " + humidity + "%\n" +
+                "Sunrise: " + sunriseFormatted + "\n" +
+                "Sunset: " + sunsetFormatted;
+        
+        // Print
+        System.out.println(weatherInfo);
     }
 
-    private static void showBasicWeatherInfo(String location) {
-        // Method to show basic weather information for the specified location
-        System.out.println("Showing basic weather information for " + location + "...");
+    public static void ShowAirPollutionData(String location) {
+        // Sample air pollution data 
+        String timestamp = "2024-03-19 10:30:00";
+        int aqi = 75;
+        String co = "0.25";
+        String no = "0.03";
+        String no2 = "0.02";
+        String so2 = "0.015";
+        String nh3 = "0.01";
+
+        // Printing
+        System.out.println("Showing Air Pollution information for " + location + ":");
+        System.out.println("Timestamp: " + timestamp);
+        System.out.println("AQI: " + aqi);
+        System.out.println("CO: " + co);
+        System.out.println("NO: " + no);
+        System.out.println("NO2: " + no2);
+        System.out.println("SO2: " + so2);
+        System.out.println("NH3: " + nh3);
     }
 
-    private static void showSunriseSunsetTime(String location) {
-        // Method to show sunrise and sunset time for the specified location
-        System.out.println("Showing sunrise and sunset time for " + location + "...");
-    }
+  
 
-    private static void showWeatherForecast(String location) {
-        // Method to show weather forecast for 5 days for the specified location
+    public static void showWeatherForecast(String location) {
+        // Hardcoded sample forecast data
+        String[][] forecastData = {
+            {"2024-03-19", "09:00:00", "25.6", "31.2"},
+            {"2024-03-20", "09:00:00", "26.8", "32.5"},
+            {"2024-03-21", "09:00:00", "27.3", "33.8"},
+            {"2024-03-22", "09:00:00", "25.5", "30.9"},
+            {"2024-03-23", "09:00:00", "24.9", "29.7"}
+        };
+
+        // Printing
         System.out.println("Showing weather forecast for 5 days for " + location + "...");
+        for (String[] forecast : forecastData) {  //for each loop
+            System.out.println("Date: " + forecast[0] + ", Time: " + forecast[1]);
+            System.out.println("Min Temperature: " + forecast[2] + "°C");
+            System.out.println("Max Temperature: " + forecast[3] + "°C");
+            System.out.println();
+        }
     }
     
 private static void clearScreen() {
