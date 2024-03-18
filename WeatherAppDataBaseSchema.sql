@@ -37,7 +37,6 @@ CREATE TABLE ForecastData (
   id INT PRIMARY KEY not null,
   location_id INT NOT NULL,
   forecast_date DATE NOT NULL, 
-  forcast_time TIME not null,
   min_temp DECIMAL(5,2) NOT NULL,
   max_temp DECIMAL(5,2) NOT NULL,
   humidity int NOT NULL,
