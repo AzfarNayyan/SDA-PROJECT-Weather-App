@@ -38,7 +38,7 @@ public class DBConnection {
         }
     }
     private static int getLocationId(Connection conn, double latitude, double longitude) throws SQLException {
-        int locationId = -1; // Default value if location not found
+        int locationId = -1; 
         String sql = "SELECT id FROM Locations WHERE latitude = ? AND longitude = ?";
         try (var pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, latitude);
@@ -52,6 +52,7 @@ public class DBConnection {
     }
     public static  void TestCurrentWeatherStoreFunction(Implementation.DataAccessImpl dataAccess)
     {
+        //Creating JSON OBJECT (This is for DB testing only Whole obect will come from API calls)
         JSONObject currentWeatherJson = new JSONObject();
         currentWeatherJson.put("location_id", 1);
         currentWeatherJson.put("feels_like", 17.39); // Adjusted feels_like value
