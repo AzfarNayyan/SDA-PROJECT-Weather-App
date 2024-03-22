@@ -28,7 +28,7 @@ public class DBConnection {
 //TestAirPollutionStoreFunction(dataAccess);
 //TestAirPollutionRetrieveFunction(dataAccess);
 //TestForcastStoreFunction(dataAccess);
-TestForcastRetrieveFunction(dataAccess);
+//TestForcastRetrieveFunction(dataAccess);
 
 
             // Close the database connection
