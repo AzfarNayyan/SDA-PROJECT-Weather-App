@@ -22,7 +22,10 @@ public class DBConnection {
         Implementation.DataAccessImpl dataAccess = new Implementation.DataAccessImpl(conn);
 
 
+//Test functions to check whether fucntions are working or not
 
+
+        
  //TestCurrentWeatherStoreFunction(dataAccess);
 //TestCurrentWeatherRetrieveFunction(dataAccess);
 //TestAirPollutionStoreFunction(dataAccess);
