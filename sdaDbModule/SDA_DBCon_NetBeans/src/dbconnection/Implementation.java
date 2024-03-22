@@ -20,7 +20,7 @@ public class Implementation {
         return rs.next(); // Return true if a row exists, indicating that the location exists
         }
 
-        // Constructor to initialize the database connection
+        //constructor
         public DataAccessImpl(Connection conn) 
         {
             this.conn = conn;
