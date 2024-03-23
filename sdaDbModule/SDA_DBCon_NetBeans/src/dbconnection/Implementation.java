@@ -167,6 +167,7 @@ public class Implementation {
 }
 
         
+        
        @Override
         public List<JSONObject> retrieveAirPollutionData(double latitude, double longitude) {
     List<JSONObject> resultList = new ArrayList<>();
@@ -187,7 +188,8 @@ public class Implementation {
             ResultSet rs = pstmt.executeQuery();
 
             // Process the results and convert to JSON
-            while (rs.next()) {
+            while (rs.next()) 
+            {
                 JSONObject json = new JSONObject();
                 json.put("aqi", rs.getInt("aqi"));
                 json.put("timestamp", rs.getString("timestamp"));
@@ -202,10 +204,12 @@ public class Implementation {
 
                 resultList.add(json);
             }
-        } else {
+        } else 
+        {
             System.out.println("Location not found.");
         }
-    } catch (SQLException e) {
+    } catch (SQLException e) 
+        {
         e.printStackTrace();
     }
     return resultList;
