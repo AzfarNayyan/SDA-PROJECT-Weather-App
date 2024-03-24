@@ -20,12 +20,7 @@ public class DBConnection {
         // Create an instance of DataAccessImpl
         Implementation.DataAccessImpl dataAccess = new Implementation.DataAccessImpl(conn);
 
-   ///checking the Exists funcitons
-            double latitude = 13.549700;
-            double longitude = 91.343600;
-
-            // Check if weather data exists
-            System.out.println("Weather Data Exists: " + dataAccess.isAirPollutionDataExists(longitude, latitude));
+  
 
         
         
@@ -34,7 +29,7 @@ public class DBConnection {
 //TestAirPollutionStoreFunction(dataAccess);
 //TestAirPollutionRetrieveFunction(dataAccess);
 //TestForecastStoreFunction(dataAccess);
-//TestForcastRetrieveFunction(dataAccess);
+TestForcastRetrieveFunction(dataAccess);
 
 
             // Close the database connection
@@ -59,7 +54,7 @@ public class DBConnection {
     
    public static void TestCurrentWeatherStoreFunction(Implementation.DataAccessImpl dataAccess) {
     JSONObject currentWeatherJson = new JSONObject();
-    currentWeatherJson.put("feels_like", 12.9); // Adjusted feels_like value
+    currentWeatherJson.put("feels_like", 12.9); 
     currentWeatherJson.put("temperature", 17.99);
     currentWeatherJson.put("min_temp", -12.3);
     currentWeatherJson.put("max_temp", 17.99);
@@ -68,13 +63,13 @@ public class DBConnection {
     currentWeatherJson.put("sunset", "2024-03-16 13:11:07");
     
     // Store CurrentWeatherData from JSON
-    dataAccess.storeCurrentWeatherDataFromJson(currentWeatherJson,"RawalPundi",81.2,90.8);
+    dataAccess.storeCurrentWeatherDataFromJson(currentWeatherJson,"RawalPindi",81.2,90.8);
 }
         
    public static void TestCurrentWeatherRetrieveFunction(Implementation.DataAccessImpl dataAccess) {
     // Example location coordinates for retrieving CurrentWeatherData
-    double latitude = 12.549700;
-    double longitude = 90.343600;
+    double latitude = 90.800000;
+    double longitude = 81.200000;
 
     System.out.println("Retrieval function called");
 
