@@ -1,7 +1,6 @@
 # Software Design and Architecture. Weather App Project.
 
 
-Backend is done and api data fetching is done with repective objects.
 
 GROUP MEMBERS: 
 
