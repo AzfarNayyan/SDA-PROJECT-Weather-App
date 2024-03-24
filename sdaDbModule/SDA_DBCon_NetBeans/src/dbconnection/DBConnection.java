@@ -20,7 +20,7 @@ public class DBConnection {
         // Create an instance of DataAccessImpl
         Implementation.DataAccessImpl dataAccess = new Implementation.DataAccessImpl(conn);
 
-   
+   ///checking the Exists funcitons
             double latitude = 13.549700;
             double longitude = 91.343600;
 
@@ -33,7 +33,7 @@ public class DBConnection {
 //TestCurrentWeatherRetrieveFunction(dataAccess);
 //TestAirPollutionStoreFunction(dataAccess);
 //TestAirPollutionRetrieveFunction(dataAccess);
-//TestForcastStoreFunction(dataAccess);
+//TestForecastStoreFunction(dataAccess);
 //TestForcastRetrieveFunction(dataAccess);
 
 
@@ -57,22 +57,19 @@ public class DBConnection {
         return locationId;
     }
     
-   public static  void TestCurrentWeatherStoreFunction(Implementation.DataAccessImpl dataAccess){
-        JSONObject currentWeatherJson = new JSONObject();
-        currentWeatherJson.put("feels_like", 12.9); // Adjusted feels_like value
-        currentWeatherJson.put("temperature", 17.99);
-        currentWeatherJson.put("min_temp", -12.3);
-        currentWeatherJson.put("max_temp", 17.99);
-        currentWeatherJson.put("humidity", 60);
-        currentWeatherJson.put("sunrise", "2024-03-16 01:11:26");
-        currentWeatherJson.put("sunset", "2024-03-16 13:11:07");
-        currentWeatherJson.put("latitude", 13.5497); // Adding latitude
-        currentWeatherJson.put("longitude", 91.3436); // Adding longitude
-
-        // Store CurrentWeatherData from JSON
-        dataAccess.storeCurrentWeatherDataFromJson(currentWeatherJson,"Quetta");
-
-    }
+   public static void TestCurrentWeatherStoreFunction(Implementation.DataAccessImpl dataAccess) {
+    JSONObject currentWeatherJson = new JSONObject();
+    currentWeatherJson.put("feels_like", 12.9); // Adjusted feels_like value
+    currentWeatherJson.put("temperature", 17.99);
+    currentWeatherJson.put("min_temp", -12.3);
+    currentWeatherJson.put("max_temp", 17.99);
+    currentWeatherJson.put("humidity", 60);
+    currentWeatherJson.put("sunrise", "2024-03-16 01:11:26");
+    currentWeatherJson.put("sunset", "2024-03-16 13:11:07");
+    
+    // Store CurrentWeatherData from JSON
+    dataAccess.storeCurrentWeatherDataFromJson(currentWeatherJson,"RawalPundi",81.2,90.8);
+}
         
    public static void TestCurrentWeatherRetrieveFunction(Implementation.DataAccessImpl dataAccess) {
     // Example location coordinates for retrieving CurrentWeatherData
@@ -82,7 +79,7 @@ public class DBConnection {
     System.out.println("Retrieval function called");
 
     // Retrieve CurrentWeatherData based on latitude and longitude
-    JSONObject weatherData = dataAccess.retrieveCurrentWeatherData(latitude, longitude);
+    JSONObject weatherData = dataAccess.retrieveCurrentWeatherData( latitude,longitude);
 
     if (weatherData.isEmpty()) {
         System.out.println("No current weather data found for the location.");
@@ -109,16 +106,13 @@ public class DBConnection {
     airPollutionJson.put("no", 4.3);
     airPollutionJson.put("no2", 71.1);
     airPollutionJson.put("so2", 32.0);
-    airPollutionJson.put("latitude", 43.5497); // Adding latitude
-    airPollutionJson.put("longitude", 743.3436); // Adding longitude
-
     // Store Air Pollution Data from JSON
-    dataAccess.storeAirPollutionDataFromJson(airPollutionJson,"faislabad");
+    dataAccess.storeAirPollutionDataFromJson(airPollutionJson,"Gawadar",100.9,200.3);
 }
 
    public static void TestAirPollutionRetrieveFunction(Implementation.DataAccessImpl dataAccess) {
-    double latitude = 43.549700;
-    double longitude = 743.343600;
+    double latitude = 200.300000;
+    double longitude = 100.900000;
     
     // Retrieve air pollution data for the specified latitude and longitude
     JSONObject airPollutionData = dataAccess.retrieveAirPollutionData(latitude, longitude);
@@ -136,16 +130,12 @@ public class DBConnection {
     System.out.println("Longitude: " + airPollutionData.getDouble("longitude"));
 }
  
-   public static void TestForcastStoreFunction(Implementation.DataAccessImpl dataAccess) {
+   public static void TestForecastStoreFunction(Implementation.DataAccessImpl dataAccess) {
     try {
-        JSONObject forecastJson = new JSONObject();
-        forecastJson.put("latitude", 13.549700); // Add latitude value
-        forecastJson.put("longitude", 91.343600); // Add longitude value
-
         // Create an array to hold forecast data for multiple days
         JSONArray forecastArray = new JSONArray();
 
-        // Add forecast data for each day
+        // Add forecast data for each day directly into the array
         for (int i = 1; i <= 5; i++) {
             JSONObject day = new JSONObject();
             day.put("date", "2024-03-1" + i);
@@ -156,18 +146,16 @@ public class DBConnection {
             forecastArray.put(day);
         }
 
-        forecastJson.put("forecast", forecastArray);
-
-        // Store Forecast Data from JSON
-        dataAccess.storeForecastDataFromJson(forecastJson, "Quetta");
+        // Store Forecast Data from JSON array
+        dataAccess.storeForecastDataFromJson(forecastArray, "Egypt", 29.50, 99.3600);
     } catch (Exception e) {
         e.printStackTrace();
     }
-}   
-    
+}
+
    public static void TestForcastRetrieveFunction(Implementation.DataAccessImpl dataAccess) {
-    double longitude = 91.343600;
-    double latitude = 13.549700;
+    double longitude = 29.500000;
+    double latitude = 99.360000;
 
     // Retrieve forecast data
     JSONArray forecastData = dataAccess.retrieveForecastData(latitude, longitude);
