@@ -11,74 +11,120 @@ public class Implementation {
     {
         private Connection conn;
         //Funtion to check if location Exist or not
-        private boolean locationExists(int locationId) throws SQLException
-        {
-        String sql = "SELECT id FROM Locations WHERE id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, locationId);
-        ResultSet rs = pstmt.executeQuery();
-        return rs.next(); // Return true if a row exists, indicating that the location exists
-        }
+        public boolean locationExists(String city, double latitude, double longitude) throws SQLException {
+    String sql = "SELECT id FROM Locations WHERE city = ? AND latitude = ? AND longitude = ?";
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, city);
+    pstmt.setDouble(2, latitude);
+    pstmt.setDouble(3, longitude);
+    ResultSet rs = pstmt.executeQuery();
+    return rs.next(); // Return true if a row exists, indicating that the location exists
+}
+ private int getLocationId(String city, double latitude, double longitude) throws SQLException {
+        // Check if the location exists in the Locations table
+        String locationSql = "SELECT id FROM Locations WHERE city = ? AND latitude = ? AND longitude = ?";
+        PreparedStatement locationPstmt = conn.prepareStatement(locationSql);
+        locationPstmt.setString(1, city);
+        locationPstmt.setDouble(2, latitude);
+        locationPstmt.setDouble(3, longitude);
 
-        //constructor
+        ResultSet resultSet = locationPstmt.executeQuery();
+
+        if (resultSet.next()) {
+            // Location exists, return its id
+            return resultSet.getInt("id");
+        } else {
+            // Location does not exist, so insert it into the Locations table
+            String insertLocationSql = "INSERT INTO Locations (city, latitude, longitude) VALUES (?, ?, ?)";
+            PreparedStatement insertLocationPstmt = conn.prepareStatement(insertLocationSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            insertLocationPstmt.setString(1, city);
+            insertLocationPstmt.setDouble(2, latitude);
+            insertLocationPstmt.setDouble(3, longitude);
+
+            insertLocationPstmt.executeUpdate();
+
+            // Retrieve the auto-generated id
+            ResultSet generatedKeys = insertLocationPstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Failed to retrieve auto-generated key.");
+            }
+        }
+    }
+ public boolean locationExists(int locationId) throws SQLException {
+    String sql = "SELECT id FROM Locations WHERE id = ?";
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+    pstmt.setInt(1, locationId);
+    ResultSet rs = pstmt.executeQuery();
+    return rs.next(); // Return true if a row exists, indicating that the location exists
+}
+ //Will be used for forcastData
+private int insertLocation(String city, double latitude, double longitude) throws SQLException {
+    String insertLocationSql = "INSERT INTO Locations (city, latitude, longitude) VALUES (?, ?, ?)";
+    try (PreparedStatement insertLocationPstmt = conn.prepareStatement(insertLocationSql, Statement.RETURN_GENERATED_KEYS)) {
+        insertLocationPstmt.setString(1, city);
+        insertLocationPstmt.setDouble(2, latitude);
+        insertLocationPstmt.setDouble(3, longitude);
+
+        insertLocationPstmt.executeUpdate();
+
+        // Retrieve the auto-generated id
+        try (ResultSet generatedKeys = insertLocationPstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Failed to retrieve auto-generated key.");
+            }
+        }
+    }
+}
+        // Constructor to initialize the database connection
         public DataAccessImpl(Connection conn) 
         {
             this.conn = conn;
         }
+       @Override
+        public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city) {
+        try {
+            
+            double longitude = jsonData.getDouble("longitude");
+            double latitude = jsonData.getDouble("latitude");
 
-        @Override
-        public void storeCurrentWeatherDataFromJson(JSONObject jsonData) {
-    try {
-        int locationId = jsonData.getInt("location_id");
-        String city = jsonData.getString("city");
-        double longitude=jsonData.getDouble("longitude");
-        double latitude=jsonData.getDouble("latitude");
+            int locationId = getLocationId(city, latitude, longitude);
 
-        // Check if the location exists in the Locations table
-        if (!locationExists(locationId)) {
-            // Location does not exist, so insert it into the Locations table
-            String locationSql = "INSERT INTO Locations (id, city, latitude, longitude) VALUES (?, ?, ?, ?)";
-            PreparedStatement locationPstmt = conn.prepareStatement(locationSql);
-            locationPstmt.setInt(1, locationId);
-            locationPstmt.setString(2, city);
-            locationPstmt.setDouble(3, longitude); 
-            locationPstmt.setDouble(4, latitude);  
+            // Now insert weather data into the CurrentWeatherData table
+            double feelsLike = jsonData.getDouble("feels_like");
+            double temperature = jsonData.getDouble("temperature");
+            double minTemp = jsonData.getDouble("min_temp");
+            double maxTemp = jsonData.getDouble("max_temp");
+            int humidity = jsonData.getInt("humidity");
+            String sunrise = jsonData.getString("sunrise");
+            String sunset = jsonData.getString("sunset");
 
-            locationPstmt.executeUpdate();
+            String weatherSql = "INSERT INTO CurrentWeatherData "
+                    + "(location_id, feels_like, temperature, min_temp, max_temp, humidity, city, sunrise, sunset) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(weatherSql);
+            pstmt.setInt(1, locationId);
+            pstmt.setDouble(2, feelsLike);
+            pstmt.setDouble(3, temperature);
+            pstmt.setDouble(4, minTemp);
+            pstmt.setDouble(5, maxTemp);
+            pstmt.setInt(6, humidity);
+            pstmt.setString(7, city);
+            pstmt.setString(8, sunrise);
+            pstmt.setString(9, sunset);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        // Now insert weather data into the CurrentWeatherData table
-        double feelsLike = jsonData.getDouble("feels_like");
-        double temperature = jsonData.getDouble("temperature");
-        double minTemp = jsonData.getDouble("min_temp");
-        double maxTemp = jsonData.getDouble("max_temp");
-        int humidity = jsonData.getInt("humidity");
-        String sunrise = jsonData.getString("sunrise");
-        String sunset = jsonData.getString("sunset");
-
-        String weatherSql = "INSERT INTO CurrentWeatherData "
-                + "(location_id, feels_like, temperature, min_temp, max_temp, humidity, city, sunrise, sunset) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pstmt = conn.prepareStatement(weatherSql);
-        pstmt.setInt(1, locationId);
-        pstmt.setDouble(2, feelsLike);
-        pstmt.setDouble(3, temperature);
-        pstmt.setDouble(4, minTemp);
-        pstmt.setDouble(5, maxTemp);
-        pstmt.setInt(6, humidity);
-        pstmt.setString(7, city);
-        pstmt.setString(8, sunrise);
-        pstmt.setString(9, sunset);
-
-        pstmt.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
-}
-    
+        
         @Override
         public List<JSONObject> retrieveCurrentWeatherData(double latitude, double longitude) {
-    List<JSONObject> resultList = new ArrayList<>();
+     List<JSONObject> resultList = new ArrayList<>();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
         String locationSql = "SELECT id FROM Locations WHERE latitude = ? AND longitude = ? ";
@@ -119,10 +165,32 @@ public class Implementation {
 }
 
 
-        @Override
-        public void storeAirPollutionDataFromJson(JSONObject jsonData) {
+ @Override
+public void storeAirPollutionDataFromJson( JSONObject jsonData,String city) {
     try {
-        int locationId = jsonData.getInt("location_id");
+        double latitude = jsonData.getDouble("latitude");
+        double longitude = jsonData.getDouble("longitude");
+
+        int locationId;
+        if (locationExists(city, latitude, longitude)) {
+            locationId = getLocationId(city, latitude, longitude);
+        } else {
+            String insertLocationSql = "INSERT INTO Locations (city, latitude, longitude) VALUES (?, ?, ?)";
+            PreparedStatement insertLocationPstmt = conn.prepareStatement(insertLocationSql, PreparedStatement.RETURN_GENERATED_KEYS);
+            insertLocationPstmt.setString(1, city);
+            insertLocationPstmt.setDouble(2, latitude);
+            insertLocationPstmt.setDouble(3, longitude);
+
+            insertLocationPstmt.executeUpdate();
+
+            ResultSet generatedKeys = insertLocationPstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                locationId = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Failed to retrieve auto-generated key.");
+            }
+        }
+
         double aqi = jsonData.getDouble("aqi");
         String timestamp = jsonData.getString("timestamp");
         double co = jsonData.getDouble("co");
@@ -130,23 +198,7 @@ public class Implementation {
         double no = jsonData.getDouble("no");
         double no2 = jsonData.getDouble("no2");
         double so2 = jsonData.getDouble("so2");
-        String city = jsonData.getString("city");
 
-        // Check if the location exists in the Locations table
-        if (!locationExists(locationId)) {
-            // Location does not exist, so insert it into the Locations table
-            double latitude = jsonData.getDouble("latitude");
-            double longitude = jsonData.getDouble("longitude");
-            String locationSql = "INSERT INTO Locations (id, city, latitude, longitude) VALUES (?, ?, ?, ?)";
-            PreparedStatement locationPstmt = conn.prepareStatement(locationSql);
-            locationPstmt.setInt(1, locationId);
-            locationPstmt.setString(2, city);
-            locationPstmt.setDouble(3, latitude);
-            locationPstmt.setDouble(4, longitude);
-            locationPstmt.executeUpdate();
-        }
-
-        // Now insert air pollution data into the AirPollutionData table
         String airPollutionSql = "INSERT INTO AirPollutionData "
                 + "(location_id, aqi, timestamp, co, nh3, no, no2, so2, city) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -160,15 +212,15 @@ public class Implementation {
         pstmt.setDouble(7, no2);
         pstmt.setDouble(8, so2);
         pstmt.setString(9, city);
+
         pstmt.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();
     }
 }
 
-        
-        
-       @Override
+
+      @Override
         public List<JSONObject> retrieveAirPollutionData(double latitude, double longitude) {
     List<JSONObject> resultList = new ArrayList<>();
     try {
@@ -188,8 +240,7 @@ public class Implementation {
             ResultSet rs = pstmt.executeQuery();
 
             // Process the results and convert to JSON
-            while (rs.next()) 
-            {
+            while (rs.next()) {
                 JSONObject json = new JSONObject();
                 json.put("aqi", rs.getInt("aqi"));
                 json.put("timestamp", rs.getString("timestamp"));
@@ -204,36 +255,26 @@ public class Implementation {
 
                 resultList.add(json);
             }
-        } else 
-        {
+        } else {
             System.out.println("Location not found.");
         }
-    } catch (SQLException e) 
-        {
+    } catch (SQLException e) {
         e.printStackTrace();
     }
     return resultList;
 }
 
-
-       @Override
-        public void storeForecastDataFromJson(JSONObject jsonData) {
+@Override
+public void storeForecastDataFromJson(JSONObject jsonData, String city) {
     try {
-        int locationId = jsonData.getInt("location_id");
-
-        // Check if the location exists in the Locations table
-        if (!locationExists(locationId)) {
-            // Location does not exist, so insert it into the Locations table
-            String city = jsonData.getString("city");
-            double latitude = jsonData.getDouble("latitude");
-            double longitude = jsonData.getDouble("longitude");
-            String locationSql = "INSERT INTO Locations (id, city, latitude, longitude) VALUES (?, ?, ?, ?)";
-            PreparedStatement locationPstmt = conn.prepareStatement(locationSql);
-            locationPstmt.setInt(1, locationId);
-            locationPstmt.setString(2, city);
-            locationPstmt.setDouble(3, latitude);
-            locationPstmt.setDouble(4, longitude);
-            locationPstmt.executeUpdate();
+        // Check if the location exists, and retrieve its ID if it does; otherwise, insert it
+        double latitude = jsonData.getDouble("latitude");
+        double longitude = jsonData.getDouble("longitude");
+        int locationId;
+        if (locationExists(city, latitude, longitude)) {
+            locationId = getLocationId(city, latitude, longitude);
+        } else {
+            locationId = insertLocation(city, latitude, longitude);
         }
 
         // Extract forecast data array from JSON
@@ -267,9 +308,8 @@ public class Implementation {
     }
 }
 
-
-       @Override
-       public List<JSONObject> retrieveForecastData(double latitude, double longitude) {
+@Override
+public List<JSONObject> retrieveForecastData(double latitude, double longitude) {
     List<JSONObject> forecastList = new ArrayList<>();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
@@ -308,5 +348,6 @@ public class Implementation {
 }
 
     }
+    
     
 }
