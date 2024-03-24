@@ -1,27 +1,26 @@
-
 package dbconnection;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
+public interface DBInterface {
+    interface DataAccessInterface {
+        void storeCurrentWeatherDataFromJson(JSONObject jsonData, String city);
 
-public class DBInterface
-{
-     interface DataAccessInterface
-    {
-    void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city);
-    
-    List<JSONObject> retrieveCurrentWeatherData(double latitude, double longitude);
+        JSONObject retrieveCurrentWeatherData(double latitude, double longitude);
 
-    void storeAirPollutionDataFromJson(JSONObject jsonData,String city);
-    
-    List<JSONObject> retrieveAirPollutionData(double latitude, double longitude);
+        void storeAirPollutionDataFromJson(JSONObject jsonData, String city);
 
-    void storeForecastDataFromJson(JSONObject jsonData,String city);
-    List<JSONObject> retrieveForecastData(double latitude, double longitude);
-    
-  }
-   
+        JSONObject retrieveAirPollutionData(double latitude, double longitude);
+
+        void storeForecastDataFromJson(JSONObject jsonData, String city);
+
+        JSONArray retrieveForecastData(double latitude, double longitude);
+
+        boolean isWeatherDataExists(double longitude, double latitude);
+
+        boolean isAirPollutionDataExists(double longitude, double latitude);
+
+        boolean isForcastDataExists(double longitude, double latitude);
+    }
 }
