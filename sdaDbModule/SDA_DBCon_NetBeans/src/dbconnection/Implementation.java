@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONException;
 public class Implementation {
     
     public static class DataAccessImpl implements DBInterface.DataAccessInterface 
@@ -85,11 +86,8 @@ public DataAccessImpl(Connection conn)
  this.conn=conn;       
 }
 @Override
-public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city) {
+public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city,double longitude,double latitude) {
         try {
-            
-            double longitude = jsonData.getDouble("longitude");
-            double latitude = jsonData.getDouble("latitude");
 
             int locationId = getLocationId(city, latitude, longitude);
 
@@ -123,7 +121,7 @@ public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city) {
     }
         
 @Override
-public JSONObject retrieveCurrentWeatherData(double latitude, double longitude) {
+public JSONObject retrieveCurrentWeatherData( double latitude,double longitude) {
     JSONObject result = new JSONObject();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
@@ -164,11 +162,9 @@ public JSONObject retrieveCurrentWeatherData(double latitude, double longitude) 
 }
 
 @Override
-public void storeAirPollutionDataFromJson( JSONObject jsonData,String city) {
+public void storeAirPollutionDataFromJson( JSONObject jsonData,String city,double longitude,double latitude) {
     try {
-        double latitude = jsonData.getDouble("latitude");
-        double longitude = jsonData.getDouble("longitude");
-
+      
         int locationId;
         if (locationExists(city, latitude, longitude)) {
             locationId = getLocationId(city, latitude, longitude);
@@ -260,13 +256,9 @@ public JSONObject retrieveAirPollutionData(double latitude, double longitude) {
     return airPollutionData;
 }
 
-
 @Override
-public void storeForecastDataFromJson(JSONObject jsonData, String city) {
+public void storeForecastDataFromJson(JSONArray jsonData, String city, double longitude, double latitude) {
     try {
-        // Check if the location exists, and retrieve its ID if it does; otherwise, insert it
-        double latitude = jsonData.getDouble("latitude");
-        double longitude = jsonData.getDouble("longitude");
         int locationId;
         if (locationExists(city, latitude, longitude)) {
             locationId = getLocationId(city, latitude, longitude);
@@ -274,12 +266,9 @@ public void storeForecastDataFromJson(JSONObject jsonData, String city) {
             locationId = insertLocation(city, latitude, longitude);
         }
 
-        // Extract forecast data array from JSON
-        JSONArray forecastArray = jsonData.getJSONArray("forecast");
-
-        // Iterate over each forecast entry
-        for (int i = 0; i < forecastArray.length(); i++) {
-            JSONObject forecastEntry = forecastArray.getJSONObject(i);
+        // Iterate over each element in the JSON array
+        for (int j = 0; j < jsonData.length(); j++) {
+            JSONObject forecastEntry = jsonData.getJSONObject(j);
 
             String forecastDate = forecastEntry.getString("date");
             double minTemp = forecastEntry.getDouble("minTemperature");
@@ -300,10 +289,11 @@ public void storeForecastDataFromJson(JSONObject jsonData, String city) {
             pstmt.setString(6, weatherDescription);
             pstmt.executeUpdate();
         }
-    } catch (SQLException e) {
+    } catch (SQLException | JSONException e) {
         e.printStackTrace();
     }
 }
+
 
 @Override
 public JSONArray retrieveForecastData(double latitude, double longitude) {
@@ -335,10 +325,14 @@ public JSONArray retrieveForecastData(double latitude, double longitude) {
 
                 forecastList.put(forecastJson);
             }
+            
+            if (forecastList.length() == 0) {
+                System.out.println("No forecast data found for the location.");
+            }
         } else {
             System.out.println("Location not found.");
         }
-    } catch (SQLException e) {
+    } catch (SQLException | JSONException e) {
         e.printStackTrace();
     }
     return forecastList;
