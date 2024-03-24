@@ -17,10 +17,10 @@ public interface DBInterface {
 
         JSONArray retrieveForecastData(double latitude, double longitude);
 
-        boolean isWeatherDataExists(double longitude, double latitude);
+        boolean isWeatherDataExists( double latitude,double longitude);
 
-        boolean isAirPollutionDataExists(double longitude, double latitude);
+        boolean isAirPollutionDataExists( double latitude,double longitude);
 
-        boolean isForcastDataExists(double longitude, double latitude);
+        boolean isForcastDataExists( double latitude,double longitude);
     }
 }
