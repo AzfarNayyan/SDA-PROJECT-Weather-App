@@ -11,7 +11,7 @@ public class Implementation {
     {
         private Connection conn;
         //Funtion to check if location Exist or not
-        public boolean locationExists(String city, double latitude, double longitude) throws SQLException {
+ public boolean locationExists(String city, double latitude, double longitude) throws SQLException {
     String sql = "SELECT id FROM Locations WHERE city = ? AND latitude = ? AND longitude = ?";
     PreparedStatement pstmt = conn.prepareStatement(sql);
     pstmt.setString(1, city);
@@ -80,12 +80,12 @@ private int insertLocation(String city, double latitude, double longitude) throw
     }
 }
         // Constructor to initialize the database connection
-        public DataAccessImpl(Connection conn) 
-        {
-            this.conn = conn;
-        }
-       @Override
-        public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city) {
+public DataAccessImpl(Connection conn) 
+{
+ this.conn=conn;       
+}
+@Override
+public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city) {
         try {
             
             double longitude = jsonData.getDouble("longitude");
@@ -122,12 +122,12 @@ private int insertLocation(String city, double latitude, double longitude) throw
         }
     }
         
-        @Override
-        public List<JSONObject> retrieveCurrentWeatherData(double latitude, double longitude) {
-     List<JSONObject> resultList = new ArrayList<>();
+@Override
+public JSONObject retrieveCurrentWeatherData(double latitude, double longitude) {
+    JSONObject result = new JSONObject();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
-        String locationSql = "SELECT id FROM Locations WHERE latitude = ? AND longitude = ? ";
+        String locationSql = "SELECT id FROM Locations WHERE latitude = ? AND longitude = ?";
         PreparedStatement locationPstmt = conn.prepareStatement(locationSql);
         locationPstmt.setDouble(1, latitude);
         locationPstmt.setDouble(2, longitude);
@@ -142,18 +142,17 @@ private int insertLocation(String city, double latitude, double longitude) throw
             ResultSet rs = pstmt.executeQuery();
 
             // Process the results and convert to JSON
-            while (rs.next()) {
-                JSONObject json = new JSONObject();
-                json.put("city", rs.getString("city"));
-                json.put("temperature", rs.getDouble("temperature"));
-                json.put("max_temp", rs.getDouble("max_temp"));
-                json.put("min_temp", rs.getDouble("min_temp"));
-                json.put("feels_like", rs.getDouble("feels_like"));
-                json.put("humidity", rs.getInt("humidity"));
-                json.put("sunrise", rs.getString("sunrise"));
-                json.put("sunset", rs.getString("sunset"));
-
-                resultList.add(json);
+            if (rs.next()) {
+                result.put("city", rs.getString("city"));
+                result.put("temperature", rs.getDouble("temperature"));
+                result.put("max_temp", rs.getDouble("max_temp"));
+                result.put("min_temp", rs.getDouble("min_temp"));
+                result.put("feels_like", rs.getDouble("feels_like"));
+                result.put("humidity", rs.getInt("humidity"));
+                result.put("sunrise", rs.getString("sunrise"));
+                result.put("sunset", rs.getString("sunset"));
+            } else {
+                System.out.println("No current weather data found for the location.");
             }
         } else {
             System.out.println("Location not found.");
@@ -161,11 +160,10 @@ private int insertLocation(String city, double latitude, double longitude) throw
     } catch (SQLException e) {
         e.printStackTrace();
     }
-    return resultList;
+    return result;
 }
 
-
- @Override
+@Override
 public void storeAirPollutionDataFromJson( JSONObject jsonData,String city) {
     try {
         double latitude = jsonData.getDouble("latitude");
@@ -219,10 +217,9 @@ public void storeAirPollutionDataFromJson( JSONObject jsonData,String city) {
     }
 }
 
-
-      @Override
-        public List<JSONObject> retrieveAirPollutionData(double latitude, double longitude) {
-    List<JSONObject> resultList = new ArrayList<>();
+@Override
+public JSONObject retrieveAirPollutionData(double latitude, double longitude) {
+    JSONObject airPollutionData = new JSONObject();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
         String locationSql = "SELECT id FROM Locations WHERE latitude = ? AND longitude = ?";
@@ -234,26 +231,25 @@ public void storeAirPollutionDataFromJson( JSONObject jsonData,String city) {
         if (locationRs.next()) {
             // Location found, retrieve air pollution data based on location ID
             int locationId = locationRs.getInt("id");
-            String sql = "SELECT * FROM AirPollutionData WHERE location_id = ?";
+            String sql = "SELECT * FROM AirPollutionData WHERE location_id = ? LIMIT 1";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, locationId);
             ResultSet rs = pstmt.executeQuery();
 
-            // Process the results and convert to JSON
-            while (rs.next()) {
-                JSONObject json = new JSONObject();
-                json.put("aqi", rs.getInt("aqi"));
-                json.put("timestamp", rs.getString("timestamp"));
-                json.put("co", rs.getDouble("co"));
-                json.put("nh3", rs.getDouble("nh3"));
-                json.put("no", rs.getDouble("no"));
-                json.put("no2", rs.getDouble("no2"));
-                json.put("so2", rs.getDouble("so2"));
-                json.put("city", rs.getString("city"));
-                json.put("latitude", latitude);
-                json.put("longitude", longitude);
-
-                resultList.add(json);
+            // Process the first result and convert to JSON
+            if (rs.next()) {
+                airPollutionData.put("aqi", rs.getInt("aqi"));
+                airPollutionData.put("timestamp", rs.getString("timestamp"));
+                airPollutionData.put("co", rs.getDouble("co"));
+                airPollutionData.put("nh3", rs.getDouble("nh3"));
+                airPollutionData.put("no", rs.getDouble("no"));
+                airPollutionData.put("no2", rs.getDouble("no2"));
+                airPollutionData.put("so2", rs.getDouble("so2"));
+                airPollutionData.put("city", rs.getString("city"));
+                airPollutionData.put("latitude", latitude);
+                airPollutionData.put("longitude", longitude);
+            } else {
+                System.out.println("No air pollution data found for the location.");
             }
         } else {
             System.out.println("Location not found.");
@@ -261,8 +257,9 @@ public void storeAirPollutionDataFromJson( JSONObject jsonData,String city) {
     } catch (SQLException e) {
         e.printStackTrace();
     }
-    return resultList;
+    return airPollutionData;
 }
+
 
 @Override
 public void storeForecastDataFromJson(JSONObject jsonData, String city) {
@@ -309,8 +306,8 @@ public void storeForecastDataFromJson(JSONObject jsonData, String city) {
 }
 
 @Override
-public List<JSONObject> retrieveForecastData(double latitude, double longitude) {
-    List<JSONObject> forecastList = new ArrayList<>();
+public JSONArray retrieveForecastData(double latitude, double longitude) {
+    JSONArray forecastList = new JSONArray();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
         String locationSql = "SELECT id FROM Locations WHERE latitude = ? AND longitude = ?";
@@ -336,7 +333,7 @@ public List<JSONObject> retrieveForecastData(double latitude, double longitude) 
                 forecastJson.put("humidity", rs.getInt("humidity"));
                 forecastJson.put("description", rs.getString("description"));
 
-                forecastList.add(forecastJson);
+                forecastList.put(forecastJson);
             }
         } else {
             System.out.println("Location not found.");
@@ -347,7 +344,65 @@ public List<JSONObject> retrieveForecastData(double latitude, double longitude) 
     return forecastList;
 }
 
+@Override
+public boolean isWeatherDataExists(double longitude, double latitude) {
+    try {
+        // Prepare SQL statement to check if weather data exists for the given location
+        String sql = "SELECT COUNT(*) AS count FROM CurrentWeatherData " +
+                     "JOIN Locations ON CurrentWeatherData.location_id = Locations.id " +
+                     "WHERE Locations.longitude = ? AND Locations.latitude = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setDouble(1, longitude);
+        pstmt.setDouble(2, latitude);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("count") > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
-    
+    return false;
+}
+
+@Override
+public boolean isAirPollutionDataExists(double longitude, double latitude) {
+    try {
+        // Prepare SQL statement to check if air pollution data exists for the given location
+        String sql = "SELECT COUNT(*) AS count FROM AirPollutionData " +
+                     "JOIN Locations ON AirPollutionData.location_id = Locations.id " +
+                     "WHERE Locations.longitude = ? AND Locations.latitude = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setDouble(1, longitude);
+        pstmt.setDouble(2, latitude);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("count") > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+@Override
+public boolean isForcastDataExists(double longitude, double latitude) {
+    try {
+        // Prepare SQL statement to check if forecast data exists for the given location
+        String sql = "SELECT COUNT(*) AS count FROM ForecastData " +
+                     "JOIN Locations ON ForecastData.location_id = Locations.id " +
+                     "WHERE Locations.longitude = ? AND Locations.latitude = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setDouble(1, longitude);
+        pstmt.setDouble(2, latitude);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("count") > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+    }
     
 }
