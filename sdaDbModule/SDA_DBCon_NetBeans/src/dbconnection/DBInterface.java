@@ -11,15 +11,17 @@ public class DBInterface
 {
      interface DataAccessInterface
     {
-    void storeCurrentWeatherDataFromJson(JSONObject jsonData);
+    void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city);
+    
     List<JSONObject> retrieveCurrentWeatherData(double latitude, double longitude);
 
-    void storeAirPollutionDataFromJson(JSONObject jsonData);
+    void storeAirPollutionDataFromJson(JSONObject jsonData,String city);
+    
     List<JSONObject> retrieveAirPollutionData(double latitude, double longitude);
 
-    void storeForecastDataFromJson(JSONObject jsonData);
+    void storeForecastDataFromJson(JSONObject jsonData,String city);
     List<JSONObject> retrieveForecastData(double latitude, double longitude);
+    
   }
    
 }
-
