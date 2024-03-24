@@ -92,10 +92,10 @@ public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city,doub
             int locationId = getLocationId(city, latitude, longitude);
 
             // Now insert weather data into the CurrentWeatherData table
-            double feelsLike = jsonData.getDouble("feels_like");
-            double temperature = jsonData.getDouble("temperature");
-            double minTemp = jsonData.getDouble("min_temp");
-            double maxTemp = jsonData.getDouble("max_temp");
+            double feelsLike = jsonData.getDouble("feelsLike");
+            double temperature = jsonData.getDouble("currentTemp");
+            double minTemp = jsonData.getDouble("minTemp");
+            double maxTemp = jsonData.getDouble("maxTemp");
             int humidity = jsonData.getInt("humidity");
             String sunrise = jsonData.getString("sunrise");
             String sunset = jsonData.getString("sunset");
@@ -121,7 +121,7 @@ public void storeCurrentWeatherDataFromJson(JSONObject jsonData,String city,doub
     }
         
 @Override
-public JSONObject retrieveCurrentWeatherData( double latitude,double longitude) {
+public JSONObject retrieveCurrentWeatherData(double latitude, double longitude) {
     JSONObject result = new JSONObject();
     try {
         // Prepare SQL statement to retrieve location ID based on latitude and longitude
@@ -141,11 +141,11 @@ public JSONObject retrieveCurrentWeatherData( double latitude,double longitude) 
 
             // Process the results and convert to JSON
             if (rs.next()) {
-                result.put("city", rs.getString("city"));
-                result.put("temperature", rs.getDouble("temperature"));
-                result.put("max_temp", rs.getDouble("max_temp"));
-                result.put("min_temp", rs.getDouble("min_temp"));
-                result.put("feels_like", rs.getDouble("feels_like"));
+                result.put("cityName", rs.getString("city"));
+                result.put("currentTemp", rs.getDouble("temperature"));
+                result.put("maxTemp", rs.getDouble("max_temp"));
+                result.put("minTemp", rs.getDouble("min_temp"));
+                result.put("feelsLike", rs.getDouble("feels_like"));
                 result.put("humidity", rs.getInt("humidity"));
                 result.put("sunrise", rs.getString("sunrise"));
                 result.put("sunset", rs.getString("sunset"));
@@ -162,16 +162,15 @@ public JSONObject retrieveCurrentWeatherData( double latitude,double longitude) 
 }
 
 @Override
-public void storeAirPollutionDataFromJson( JSONObject jsonData,String city,double longitude,double latitude) {
+public void storeAirPollutionDataFromJson(JSONObject jsonData, String cityName, double longitude, double latitude) {
     try {
-      
         int locationId;
-        if (locationExists(city, latitude, longitude)) {
-            locationId = getLocationId(city, latitude, longitude);
+        if (locationExists(cityName, latitude, longitude)) {
+            locationId = getLocationId(cityName, latitude, longitude);
         } else {
             String insertLocationSql = "INSERT INTO Locations (city, latitude, longitude) VALUES (?, ?, ?)";
             PreparedStatement insertLocationPstmt = conn.prepareStatement(insertLocationSql, PreparedStatement.RETURN_GENERATED_KEYS);
-            insertLocationPstmt.setString(1, city);
+            insertLocationPstmt.setString(1, cityName);
             insertLocationPstmt.setDouble(2, latitude);
             insertLocationPstmt.setDouble(3, longitude);
 
@@ -205,13 +204,14 @@ public void storeAirPollutionDataFromJson( JSONObject jsonData,String city,doubl
         pstmt.setDouble(6, no);
         pstmt.setDouble(7, no2);
         pstmt.setDouble(8, so2);
-        pstmt.setString(9, city);
+        pstmt.setString(9, cityName);
 
         pstmt.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();
     }
 }
+
 
 @Override
 public JSONObject retrieveAirPollutionData(double latitude, double longitude) {
@@ -241,7 +241,7 @@ public JSONObject retrieveAirPollutionData(double latitude, double longitude) {
                 airPollutionData.put("no", rs.getDouble("no"));
                 airPollutionData.put("no2", rs.getDouble("no2"));
                 airPollutionData.put("so2", rs.getDouble("so2"));
-                airPollutionData.put("city", rs.getString("city"));
+                airPollutionData.put("cityName", rs.getString("city"));
                 airPollutionData.put("latitude", latitude);
                 airPollutionData.put("longitude", longitude);
             } else {
@@ -257,13 +257,13 @@ public JSONObject retrieveAirPollutionData(double latitude, double longitude) {
 }
 
 @Override
-public void storeForecastDataFromJson(JSONArray jsonData, String city, double longitude, double latitude) {
+public void storeForecastDataFromJson(JSONArray jsonData, String cityName, double longitude, double latitude) {
     try {
         int locationId;
-        if (locationExists(city, latitude, longitude)) {
-            locationId = getLocationId(city, latitude, longitude);
+        if (locationExists(cityName, latitude, longitude)) {
+            locationId = getLocationId(cityName, latitude, longitude);
         } else {
-            locationId = insertLocation(city, latitude, longitude);
+            locationId = insertLocation(cityName, latitude, longitude);
         }
 
         // Iterate over each element in the JSON array
@@ -271,8 +271,8 @@ public void storeForecastDataFromJson(JSONArray jsonData, String city, double lo
             JSONObject forecastEntry = jsonData.getJSONObject(j);
 
             String forecastDate = forecastEntry.getString("date");
-            double minTemp = forecastEntry.getDouble("minTemperature");
-            double maxTemp = forecastEntry.getDouble("maxTemperature");
+            double minTemp = forecastEntry.getDouble("minTemp");
+            double maxTemp = forecastEntry.getDouble("maxTemp");
             int humidity = forecastEntry.getInt("humidity");
             String weatherDescription = forecastEntry.getString("description");
 
@@ -317,9 +317,9 @@ public JSONArray retrieveForecastData(double latitude, double longitude) {
             // Process the results and convert to JSON
             while (rs.next()) {
                 JSONObject forecastJson = new JSONObject();
-                forecastJson.put("forecast_date", rs.getString("forecast_date"));
-                forecastJson.put("min_temp", rs.getDouble("min_temp"));
-                forecastJson.put("max_temp", rs.getDouble("max_temp"));
+                forecastJson.put("date", rs.getString("forecast_date"));
+                forecastJson.put("minTemp", rs.getDouble("min_temp"));
+                forecastJson.put("maxTemp", rs.getDouble("max_temp"));
                 forecastJson.put("humidity", rs.getInt("humidity"));
                 forecastJson.put("description", rs.getString("description"));
 
