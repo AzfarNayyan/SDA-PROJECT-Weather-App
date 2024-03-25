@@ -53,6 +53,11 @@ CREATE TABLE ForecastData (
 );
 ALTER TABLE AirPollutionData MODIFY COLUMN co DECIMAL(10,2);
 
+ALTER TABLE Locations
+MODIFY latitude DECIMAL(11, 9),
+MODIFY longitude DECIMAL(12, 9);
+
+
 select * from Locations;
 select * from CurrentWeatherData;
 select * from AirPollutionData;
