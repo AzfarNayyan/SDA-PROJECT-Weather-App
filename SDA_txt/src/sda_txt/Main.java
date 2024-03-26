@@ -1,4 +1,3 @@
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -78,17 +77,17 @@ public class Main {
         System.out.println("Retrieved current weather data: " + retrievedCurrentWeatherData);
 
         // Store air pollution data
-        weatherManager.storeAirPollutionDataFromJson(airPollutionData, "Lahore", 90.3436, 1.5497);
+        weatherManager.storeAirPollutionDataFromJson(airPollutionData, "Islamabad", 99.3436, 11.5497);
 
         // Retrieve air pollution data
         JSONObject retrievedAirPollutionData = weatherManager.retrieveAirPollutionData(1.5497, 90.3436);
         System.out.println("Retrieved air pollution data: " + retrievedAirPollutionData);
 
         // Store weather forecast data
-      weatherManager.storeForecastDataFromJson(forecastData, "KARACHI", 1234, 2);
-//
-//        // Retrieve weather forecast data
-        JSONArray retrievedForecastData = weatherManager.retrieveForecastData(1234,2);
+      weatherManager.storeForecastDataFromJson(forecastData, "Lahore",9, 32);
+
+        // Retrieve weather forecast data
+        JSONArray retrievedForecastData = weatherManager.retrieveForecastData(32,9);
        System.out.println("Retrieved forecast data: " + retrievedForecastData);
        
         // Sample latitude and longitude coordinates
@@ -96,8 +95,8 @@ public class Main {
         double weatherLongitude = 2221.433336;
         double airPollutionLatitude = 1.5497;
         double airPollutionLongitude = 90.3436;
-        double forecastLatitude = 1234;
-        double forecastLongitude = 2;
+        double forecastLatitude = 32;
+        double forecastLongitude =9;
 
 
         // Check if weather data exists
@@ -108,11 +107,8 @@ public class Main {
         boolean airPollutionExists = weatherManager.isAirPollutionDataExists(airPollutionLatitude, airPollutionLongitude);
         System.out.println("Air pollution data exists: " + airPollutionExists);
 
-        // Check if forecast data exists
-        boolean forecastExists = weatherManager.isForcastDataExists(forecastLatitude, forecastLongitude);
+//        // Check if forecast data exists
+        boolean forecastExists = weatherManager.isForcastDataExists( forecastLatitude,forecastLongitude);
         System.out.println("Forecast data exists: " + forecastExists);
     }
 }
-    
-   
-
