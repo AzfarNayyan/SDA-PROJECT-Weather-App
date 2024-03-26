@@ -1,0 +1,1 @@
+{"NO2":78.14,"NO":4.3,"Air Quality Index (aqi)":5,"SO2":15.14,"NH3":121.59,"Latitude":1.5497,"CO":2002.72,"Timestamp":"2024-03-15 21:21:41","Longitude":90.3436}

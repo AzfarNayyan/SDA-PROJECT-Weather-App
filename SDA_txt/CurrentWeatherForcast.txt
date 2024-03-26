@@ -1,0 +1,1 @@
+{"sunrise":"2024-03-16 01:11:26","city":"fa34","min_temp":13.06,"sunset":"2024-03-16 13:11:07","temperature":17.99,"humidity":59,"Latitude":111.9533357,"max_temp":12.9,"feels_like":17.39,"Longitude":2221.433336}
