@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         // Sample weather data
         JSONObject currentWeatherData = new JSONObject();
-        currentWeatherData.put("city", "fa34");
+        currentWeatherData.put("city", "Lahore");
         currentWeatherData.put("temperature", 17.99);
         currentWeatherData.put("max_temp", 12.9);
         currentWeatherData.put("min_temp", 13.06);
@@ -69,15 +69,15 @@ public class Main {
         // Test data insertion and retrieval
         WeatherDataFileManager weatherManager = new WeatherDataFileManager();
 
-        // Store current weather data
-        weatherManager.storeCurrentWeatherDataFromJson(currentWeatherData, "fa34", 2221.433336, 111.9533357);
+         //Store current weather data
+        weatherManager.storeCurrentWeatherDataFromJson(currentWeatherData, "Lahore", 2221.433336, 111.9533357);
 
         // Retrieve current weather data
         JSONObject retrievedCurrentWeatherData = weatherManager.retrieveCurrentWeatherData(111.9533357, 2221.433336);
         System.out.println("Retrieved current weather data: " + retrievedCurrentWeatherData);
 
         // Store air pollution data
-        weatherManager.storeAirPollutionDataFromJson(airPollutionData, "Islamabad", 99.3436, 11.5497);
+        weatherManager.storeAirPollutionDataFromJson(airPollutionData, "Lahore", 99.3436, 11.5497);
 
         // Retrieve air pollution data
         JSONObject retrievedAirPollutionData = weatherManager.retrieveAirPollutionData(1.5497, 90.3436);
@@ -93,8 +93,8 @@ public class Main {
         // Sample latitude and longitude coordinates
         double weatherLatitude = 111.9533357;
         double weatherLongitude = 2221.433336;
-        double airPollutionLatitude = 1.5497;
-        double airPollutionLongitude = 90.3436;
+        double airPollutionLatitude = 11.5497;
+        double airPollutionLongitude = 99.3436;
         double forecastLatitude = 32;
         double forecastLongitude =9;
 
