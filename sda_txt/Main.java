@@ -1,3 +1,4 @@
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -5,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         // Sample weather data
         JSONObject currentWeatherData = new JSONObject();
-        currentWeatherData.put("city", "Karachi");
+        currentWeatherData.put("city", "fa34");
         currentWeatherData.put("temperature", 17.99);
         currentWeatherData.put("max_temp", 12.9);
         currentWeatherData.put("min_temp", 13.06);
@@ -70,24 +71,48 @@ public class Main {
         WeatherDataFileManager weatherManager = new WeatherDataFileManager();
 
         // Store current weather data
-        weatherManager.storeCurrentWeatherDataFromJson(currentWeatherData, "Karachi", 69.3436, 31.5497);
+        weatherManager.storeCurrentWeatherDataFromJson(currentWeatherData, "fa34", 2221.433336, 111.9533357);
 
-         //Retrieve current weather data
-        JSONObject retrievedCurrentWeatherData = weatherManager.retrieveCurrentWeatherData(31.5497, 74.3436);
+        // Retrieve current weather data
+        JSONObject retrievedCurrentWeatherData = weatherManager.retrieveCurrentWeatherData(111.9533357, 2221.433336);
         System.out.println("Retrieved current weather data: " + retrievedCurrentWeatherData);
 
-         //Store air pollution data
-        weatherManager.storeAirPollutionDataFromJson(airPollutionData, "Karachi",69.3436, 31.5497);
+        // Store air pollution data
+        weatherManager.storeAirPollutionDataFromJson(airPollutionData, "Lahore", 90.3436, 1.5497);
 
         // Retrieve air pollution data
-        JSONObject retrievedAirPollutionData = weatherManager.retrieveAirPollutionData(31.5497, 74.3436);
+        JSONObject retrievedAirPollutionData = weatherManager.retrieveAirPollutionData(1.5497, 90.3436);
         System.out.println("Retrieved air pollution data: " + retrievedAirPollutionData);
 
-         //Store weather forecast data
-        weatherManager.storeForecastDataFromJson(forecastData, "Karachi", 69.3436, 31.5497);
+        // Store weather forecast data
+      weatherManager.storeForecastDataFromJson(forecastData, "KARACHI", 1234, 2);
+//
+//        // Retrieve weather forecast data
+        JSONArray retrievedForecastData = weatherManager.retrieveForecastData(1234,2);
+       System.out.println("Retrieved forecast data: " + retrievedForecastData);
+       
+        // Sample latitude and longitude coordinates
+        double weatherLatitude = 111.9533357;
+        double weatherLongitude = 2221.433336;
+        double airPollutionLatitude = 1.5497;
+        double airPollutionLongitude = 90.3436;
+        double forecastLatitude = 1234;
+        double forecastLongitude = 2;
 
-        // Retrieve weather forecast data
-        JSONArray retrievedForecastData = weatherManager.retrieveForecastData(31.5497, 74.3436);
-        System.out.println("Retrieved forecast data: " + retrievedForecastData);
+
+        // Check if weather data exists
+        boolean weatherExists = weatherManager.isWeatherDataExists(weatherLatitude, weatherLongitude);
+        System.out.println("Weather data exists: " + weatherExists);
+
+        // Check if air pollution data exists
+        boolean airPollutionExists = weatherManager.isAirPollutionDataExists(airPollutionLatitude, airPollutionLongitude);
+        System.out.println("Air pollution data exists: " + airPollutionExists);
+
+        // Check if forecast data exists
+        boolean forecastExists = weatherManager.isForcastDataExists(forecastLatitude, forecastLongitude);
+        System.out.println("Forecast data exists: " + forecastExists);
     }
 }
+    
+   
+
