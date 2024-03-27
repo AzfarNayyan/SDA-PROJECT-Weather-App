@@ -113,22 +113,38 @@ public class chooselatitude extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        fivedaydata main1 = new fivedaydata();
-        main1.setVisible(true);
-        this.dispose(); // Close the current frame
+       
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 String text1 = jTextPane2.getText(); // Assuming jTextField1 is the first text box
 String text2 = jTextPane1.getText(); // Assuming jTextField2 is the second text box
 
-// Check if the first text box contains "30" and the second text box contains "28"
-if (text1.equals("30") && text2.equals("28")) {
-    // Perform the action when both conditions are met
-    selectdisplaytype fivedaydata = new selectdisplaytype();
-    fivedaydata.setVisible(true);
-    this.dispose(); // Close the current frame
+try {
+    // Convert string to double
+    double value1 = Double.parseDouble(text1);
+    double value2 = Double.parseDouble(text2);
+
+    // Use the double values
+    System.out.println("Value 1: " + value1);
+    System.out.println("Value 2: " + value2);
+
+    // You can perform further operations with the double values here
+} catch (NumberFormatException e) {
+    // Handle the case where the string cannot be parsed as a double
+    System.err.println("Error: Unable to parse the string as a double.");
+    e.printStackTrace();
 }
+//
+
+
+//// Check if the first text box contains "30" and the second text box contains "28"
+//if (text1.equals("30") && text2.equals("28")) {
+//    // Perform the action when both conditions are met
+//    selectdisplaytype fivedaydata = new selectdisplaytype();
+//    fivedaydata.setVisible(true);
+//    this.dispose(); // Close the current frame
+//}
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
