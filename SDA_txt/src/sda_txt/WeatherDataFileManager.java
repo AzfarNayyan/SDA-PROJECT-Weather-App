@@ -76,23 +76,21 @@ public class WeatherDataFileManager implements DBInterface.DataAccessInterface
 
 
     // Utility function to retrieve data from a file based on latitude and longitude
-    private JSONObject retrieveDataFromFileAP(double latitude, double longitude, String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                JSONObject obj = new JSONObject(line);
-                double objLatitude = obj.getDouble("Latitude");
-                double objLongitude = obj.getDouble("Longitude");
-                if (objLatitude == latitude && objLongitude == longitude) {
-                    return obj;
-                }
-            }
-            System.out.println("No data found for latitude: " + latitude + " and longitude: " + longitude + " in " + fileName);
-        } catch (IOException e) {
-            System.err.println("Error retrieving data from " + fileName + ": " + e.getMessage());
+  private JSONObject retrieveDataFromFileAP(double latitude, double longitude, String fileName) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            JSONObject obj = new JSONObject(line);
+            obj.remove("Longitude");
+            obj.remove("Latitude");
+            return obj;
         }
-        return null;
+        System.out.println("No data found for latitude: " + latitude + " and longitude: " + longitude + " in " + fileName);
+    } catch (IOException e) {
+        System.err.println("Error retrieving data from " + fileName + ": " + e.getMessage());
     }
+    return null;
+}
 
     // Utility function to store current weather data to a file
    private void storeCurrentWeatherDataToFile(JSONObject currentWeatherData, String fileName) {
@@ -108,23 +106,22 @@ public class WeatherDataFileManager implements DBInterface.DataAccessInterface
 
 
     // Utility function to retrieve current weather data from a file based on latitude and longitude
-    private JSONObject retrieveCurrentWeatherFromFile(double latitude, double longitude, String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                JSONObject obj = new JSONObject(line);
-                double objLatitude = obj.getDouble("Latitude");
-                double objLongitude = obj.getDouble("Longitude");
-                if (objLatitude == latitude && objLongitude == longitude) {
-                    return obj;
-                }
-            }
-            System.out.println("No current weather data found for latitude: " + latitude + " and longitude: " + longitude + " in " + fileName);
-        } catch (IOException e) {
-            System.err.println("Error retrieving current weather data from " + fileName + ": " + e.getMessage());
+   private JSONObject retrieveCurrentWeatherFromFile(double latitude, double longitude, String fileName) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            JSONObject obj = new JSONObject(line);
+            obj.remove("Longitude");
+            obj.remove("Latitude");
+            return obj;
         }
-        return null;
+        System.out.println("No current weather data found in " + fileName);
+    } catch (IOException e) {
+        System.err.println("Error retrieving current weather data from " + fileName + ": " + e.getMessage());
     }
+    return null;
+}
+
 
     // Utility function to store forecast weather data to a file
 private void storeForecastWeatherDataToFile(JSONArray forecastWeatherData, String fileName) {
