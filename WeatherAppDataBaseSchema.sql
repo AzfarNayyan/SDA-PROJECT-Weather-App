@@ -23,7 +23,7 @@ CREATE TABLE CurrentWeatherData (
   sunrise TIME NOT NULL,
   sunset TIME NOT NULL,
   city VARCHAR(30) NOT NULL,
-  FOREIGN KEY (location_id) REFERENCES Locations(id)
+  FOREIGN KEY (location_id) REFERENCES Locations(id) ON DELETE CASCADE
 );
 
 -- Create the AirPollutionData table with a foreign key reference to Locations
@@ -38,7 +38,7 @@ CREATE TABLE AirPollutionData (
   so2 DECIMAL(5,2) DEFAULT NULL,
   nh3 DECIMAL(5,2) DEFAULT NULL,
   city VARCHAR(20) DEFAULT NULL,
-  FOREIGN KEY (location_id) REFERENCES Locations(id)
+  FOREIGN KEY (location_id) REFERENCES Locations(id) ON DELETE CASCADE
 );
 
 -- Create the ForecastData table with a foreign key reference to Locations
@@ -50,7 +50,7 @@ CREATE TABLE ForecastData (
   max_temp DECIMAL(5,2) NOT NULL,
   humidity INT NOT NULL,
   description VARCHAR(50) NOT NULL,
-  FOREIGN KEY (location_id) REFERENCES Locations(id)
+  FOREIGN KEY (location_id) REFERENCES Locations(id) ON DELETE CASCADE
 );
 ALTER TABLE AirPollutionData MODIFY COLUMN co DECIMAL(10,2);
 
@@ -74,7 +74,7 @@ CREATE TABLE DeleteRecordsEvent (
 
 
 DELIMITER //
-
+/*
 CREATE TRIGGER DeleteAfter24Hours
 AFTER INSERT ON CurrentWeatherData
 FOR EACH ROW
@@ -145,6 +145,17 @@ END;
 //
 
 DELIMITER ;
-
+*/
 SET GLOBAL event_scheduler = ON;
-
+CREATE EVENT e_clear_sessions
+ON SCHEDULE EVERY 120 SECOND
+STARTS CURRENT_TIMESTAMP
+ENDS CURRENT_TIMESTAMP + INTERVAL 24 HOUR
+COMMENT 'Clears out outdated locations every 30 seconds for 24 hours.'
+DO
+DELETE FROM Locations
+WHERE id IN (
+    SELECT DISTINCT location_id
+    FROM AirPollutionData
+    WHERE TIMESTAMPDIFF(SECOND, timestamp, NOW()) > 300
+);
