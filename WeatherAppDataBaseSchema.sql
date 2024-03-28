@@ -65,16 +65,18 @@ select * from AirPollutionData;
 select * from ForecastData
 
 
-CREATE TABLE DeleteRecordsEvent (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    table_name VARCHAR(50) NOT NULL,
-    record_id INT NOT NULL,
-    delete_time DATETIME NOT NULL
-);
+
 
 
 
 /*
+  CREATE TABLE DeleteRecordsEvent (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50) NOT NULL,
+    record_id INT NOT NULL,
+    delete_time DATETIME NOT NULL
+); 
+  
 DELIMITER //
 CREATE TRIGGER DeleteAfter24Hours
 AFTER INSERT ON CurrentWeatherData
