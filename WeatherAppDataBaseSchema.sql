@@ -73,8 +73,9 @@ CREATE TABLE DeleteRecordsEvent (
 );
 
 
-DELIMITER //
+
 /*
+DELIMITER //
 CREATE TRIGGER DeleteAfter24Hours
 AFTER INSERT ON CurrentWeatherData
 FOR EACH ROW
