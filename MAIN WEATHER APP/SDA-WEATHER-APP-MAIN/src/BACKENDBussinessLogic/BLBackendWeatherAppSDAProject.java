@@ -34,7 +34,7 @@ public class BLBackendWeatherAppSDAProject {
        else if (UI_NUMBER_1TERMINAL_2GRAPHICAL == 2)
        {
            ui = new GraphicalUI.GraphicalUI(); 
-           ui.getInputValues();
+           handleAppUIDB1();
        }
        else
        {
