@@ -1,5 +1,5 @@
-create database SDAProject
-use SDAProject
+create database SDAProjectOld
+use SDAProjectOld
 
 -- Drop the existing tables if they exist
 
