@@ -65,7 +65,7 @@ select * from AirPollutionData;
 select * from ForecastData
 
 
-
+SET sql_safe_updates = 0;
 
 
 
