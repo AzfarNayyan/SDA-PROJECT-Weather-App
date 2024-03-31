@@ -27,7 +27,7 @@
 3. mysql-connector-j-8.3.0.jar 
 
 
-:red_circle: GROUP MEMBERS: <br /> :bangbang:
+:red_circle: GROUP MEMBERS: :bangbang: <br />
 Azfar Nayyan (22L-7886). <br />
 Saim Imran (22L-7906). <br />
 Talha Tofeeq (22L-6190). <br />
