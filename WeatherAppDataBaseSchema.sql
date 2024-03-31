@@ -66,11 +66,9 @@ select * from ForecastData
 
 
 SET sql_safe_updates = 0;
-
-
-
-
 SET GLOBAL event_scheduler = ON;
+
+
 CREATE EVENT e_clear_sessions
 ON SCHEDULE EVERY 86400 SECOND
 COMMENT 'Clears out outdated locations every 30 seconds for 24 hours.'
