@@ -38,6 +38,7 @@ D: It is the main principle of the project. Both UI and DB are independent of BL
 
 
 :red_circle: Dependency Inversion: :bangbang: <br />
+
 The communication between UI and DB is done through interface classes. Interface class is of single type for both UI and DB. Making changes in BL does not require changes in UI or DB. Similarly changes in DB or UI doesn't affect the BL because the BL only knows/uses the interface provided to BL.  
 
 :red_circle: Design Patterns used: :bangbang: <br />
