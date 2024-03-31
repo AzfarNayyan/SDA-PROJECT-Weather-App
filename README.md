@@ -30,17 +30,17 @@
 
 :red_circle: SOLID Principles: :bangbang:
 
-S: Every class has a single responsibility like the classes like ‘WeatherAPIHandler.java’ has the responsibility to handle Api response and parse Json data. This principle is followed throughout. 
-O: It's used in the Interfaces of Ui and db. 
-L: Although there is no specific inheritance used in the code, but still the interface is interchangeable by the child classes in UI and DB. 
-I: Interfaces are made to tackle UI and DB. 
-D: It is the main principle of the project. Both UI and DB are independent of BL.  
+S: Every class has a single responsibility like the classes like ‘WeatherAPIHandler.java’ has the responsibility to handle Api response and parse Json data. This principle is followed throughout. <br />
+O: It's used in the Interfaces of Ui and db. <br />
+L: Although there is no specific inheritance used in the code, but still the interface is interchangeable by the child classes in UI and DB. <br />
+I: Interfaces are made to tackle UI and DB. <br />
+D: It is the main principle of the project. Both UI and DB are independent of BL.  <br />
 
 
-:red_circle: Dependency Inversion: :bangbang:
+:red_circle: Dependency Inversion: :bangbang: <br />
 The communication between UI and DB is done through interface classes. Interface class is of single type for both UI and DB. Making changes in BL does not require changes in UI or DB. Similarly changes in DB or UI doesn't affect the BL because the BL only knows/uses the interface provided to BL.  
 
-:red_circle: Design Patterns used: :bangbang:
+:red_circle: Design Patterns used: :bangbang: <br />
 
 1. Facade: the interface of UI and DB hide the mess of implementation. 
 2. Singleton: cache manager is created only once. 
