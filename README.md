@@ -30,11 +30,11 @@
 
 :red_circle: SOLID Principles: :bangbang:
 
-S: Every class has a single responsibility like the classes like ‘WeatherAPIHandler.java’ has the responsibility to handle Api response and parse Json data. This principle is followed throughout. <br />
-O: It's used in the Interfaces of Ui and db. <br />
-L: Although there is no specific inheritance used in the code, but still the interface is interchangeable by the child classes in UI and DB. <br />
-I: Interfaces are made to tackle UI and DB. <br />
-D: It is the main principle of the project. Both UI and DB are independent of BL.  <br />
+1. S: Every class has a single responsibility like the classes like ‘WeatherAPIHandler.java’ has the responsibility to handle Api response and parse Json data. This principle is followed throughout. <br />
+2. O: It's used in the Interfaces of Ui and db. <br />
+3. L: Although there is no specific inheritance used in the code, but still the interface is interchangeable by the child classes in UI and DB. <br />
+4. I: Interfaces are made to tackle UI and DB. <br />
+5. D: It is the main principle of the project. Both UI and DB are independent of BL.  <br />
 
 
 :red_circle: Dependency Inversion: :bangbang: <br />
