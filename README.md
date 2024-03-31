@@ -44,7 +44,14 @@ The communication between UI and DB is done through interface classes. Interface
 :red_circle: Design Patterns used: :bangbang: <br />
 
 1. Facade: the interface of UI and DB hide the mess of implementation. 
-2. Singleton: cache manager is created only once. 
+2. Singleton: cache manager is created only once.
+
+:red_circle: Class Diagram: :bangbang: <br />
+
+The complete classes model is included in the Documentation folder. The class structure is the same as provided in the first phase. The new class diagram is bulky because complete functions and all classes of project are shown.  
+The is no change in the class structure as provided in the first phase except only there is change in notification classes.  
+The package diagram is also provided in the first phase. The package diagram is also implemented the same as provided.  
+Check the design document for further clarification of design. 
 
 
 :red_circle: GROUP MEMBERS: :bangbang: <br />
