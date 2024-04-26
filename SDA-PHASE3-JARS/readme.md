@@ -1,3 +1,5 @@
+**OPEN CMD** <br />
+
 cd **path to folder**  <br />
 java -jar **file name**  <br />
 
