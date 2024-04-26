@@ -62,7 +62,7 @@ MODIFY longitude DECIMAL(12, 9);
 select * from Locations;
 select * from CurrentWeatherData;
 select * from AirPollutionData;
-select * from ForecastData
+select * from ForecastData;
 
 
 SET sql_safe_updates = 0;
