@@ -36,15 +36,17 @@
 4. I: Interfaces are made to tackle UI and DB. <br />
 5. D: It is the main principle of the project. Both UI and DB are independent of BL.  <br />
 
+:red_circle: Design Patterns used: :bangbang: <br />
 
+1. Adapter: JSONExporter.java and JSONConverter.java are the Adapter classes to JSON data.
+2. Facade: the interface of UI and DB hide the mess of implementation. 
+3. Singleton: cache manager is created only once.
+4. Strategy: The application has two UI and DB so application selects a ALGORITHM at run time.
+5. Builder: "CacheManger" is the Director and its asks a Concrete Builder "WeatherAPIHandler.java" to build products like WeatherData, ForcastData and AirpollutionData.
+   
 :red_circle: Dependency Inversion: :bangbang: <br />
 
 The communication between UI and DB is done through interface classes. Interface class is of single type for both UI and DB. Making changes in BL does not require changes in UI or DB. Similarly changes in DB or UI doesn't affect the BL because the BL only knows/uses the interface provided to BL.  
-
-:red_circle: Design Patterns used: :bangbang: <br />
-
-1. Facade: the interface of UI and DB hide the mess of implementation. 
-2. Singleton: cache manager is created only once.
 
 :red_circle: Class Diagram: :bangbang: <br />
 
