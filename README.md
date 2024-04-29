@@ -1,4 +1,5 @@
 # Software Design and Architecture. Weather App Project.
+----------------------------------------------------------------------------------------------------------------------------------
 
 
 :red_circle: How to Run/Compile this project: :bangbang:
@@ -20,6 +21,7 @@
 13- Change and run to compile. 
 14- The terminal UI has some meaning full outputs which basically tells how application is working. Please ignore if you are using Terminal UI. 
 
+----------------------------------------------------------------------------------------------------------------------------------
 :red_circle: If you are facing library issue, make sure to include the libraries included in ‘JARS’ on GitHub repository. :bangbang:  
 
 1. json-20240303.jar 
@@ -27,6 +29,7 @@
 3. mysql-connector-j-8.3.0.jar
 
     
+----------------------------------------------------------------------------------------------------------------------------------
 
 :red_circle: SOLID Principles: :bangbang:
 
@@ -35,6 +38,8 @@
 3. L: Although there is no specific inheritance used in the code, but still the interface is interchangeable by the child classes in UI and DB. <br />
 4. I: Interfaces are made to tackle UI and DB. <br />
 5. D: It is the main principle of the project. Both UI and DB are independent of BL.  <br />
+----------------------------------------------------------------------------------------------------------------------------------
+
 
 :red_circle: Design Patterns used: :bangbang: <br />
 
@@ -43,10 +48,13 @@
 3. Singleton: cache manager is created only once.
 4. Strategy: The application has two UI and DB so application selects a ALGORITHM at run time.
 5. Builder: "CacheManger" is the Director and its asks a Concrete Builder "WeatherAPIHandler.java" to build products like WeatherData, ForcastData and AirpollutionData.
+6. ----------------------------------------------------------------------------------------------------------------------------------
+
    
 :red_circle: Dependency Inversion: :bangbang: <br />
 
 The communication between UI and DB is done through interface classes. Interface class is of single type for both UI and DB. Making changes in BL does not require changes in UI or DB. Similarly changes in DB or UI doesn't affect the BL because the BL only knows/uses the interface provided to BL.  
+----------------------------------------------------------------------------------------------------------------------------------
 
 :red_circle: Class Diagram: :bangbang: <br />
 
@@ -54,6 +62,8 @@ The complete classes model is included in the Documentation folder. The class st
 The is no change in the class structure as provided in the first phase except only there is change in notification classes.  
 The package diagram is also provided in the first phase. The package diagram is also implemented the same as provided.  
 Check the design document for further clarification of design. 
+----------------------------------------------------------------------------------------------------------------------------------
+
 
 
 :red_circle: GROUP MEMBERS: :bangbang: <br />
