@@ -2,31 +2,31 @@
 ----------------------------------------------------------------------------------------------------------------------------------
 
 
-:red_circle: How to Run/Compile this project: :bangbang:
+:red_circle: How to Run/Compile this project: :bangbang:</br>
 
-1- Download the zip file of the repository. 
-2- Un-Zip the folder. 
-3- You can use NetBeans and IntelliJ Java compiler to run this project. 
+1- Download the zip file of the repository. </br>
+2- Un-Zip the folder. </br>
+3- You can use NetBeans and IntelliJ Java compiler to run this project. </br>
 4- For SQL database firstly you have to make a SQL database by running the queries provided on GitHub. Make a Database named ‘SDAProject’ as provided in WeatherAppDataBaseSchema.sql on the repository. 
-   MySQL based database is used. Use MySQL Workbench for this. 
-5- Open the Project named ‘SDA-WEATHER-APP-MAIN' in the folder ‘MAIN WEATHER APP’. Open this project in the java compiler you have chosen. 
+   MySQL based database is used. Use MySQL Workbench for this. </br>
+5- Open the Project named ‘SDA-WEATHER-APP-MAIN' in the folder ‘MAIN WEATHER APP’. Open this project in the java compiler you have chosen. </br>
 6- In the project file and in the src folder there is a package named ‘BACKENDBussinessLogic’ which is BL for this project. In this package there is a main java executable class named 
-   ‘BLBackendWeatherAppSDAProject.java’. 
-7- This main java class is executable, and you will run this file. 
-8- In this file there are two static variables. 
-9- UI_NUMBER_1TERMINAL_2GRAPHICAL and DB_NUMBER_1SQL_2TXT. 
-10- SIMPLY CHANGE THE NUMBER TO ACCESS DIFFERENT UI'S AND DB'S. BOTH ARE INTERCHANGABLE. 
-11- UI: (1 IS TERMINAL BASED) (2 IS GRAPHICAL BASED). 
-12- DB: (1 IS SQL BASED) (2 IS TXT BASED). 
-13- Change and run to compile. 
-14- The terminal UI has some meaning full outputs which basically tells how application is working. Please ignore if you are using Terminal UI. 
+   ‘BLBackendWeatherAppSDAProject.java’. </br>
+7- This main java class is executable, and you will run this file. </br>
+8- In this file there are two static variables. </br>
+9- UI_NUMBER_1TERMINAL_2GRAPHICAL and DB_NUMBER_1SQL_2TXT. </br>
+10- SIMPLY CHANGE THE NUMBER TO ACCESS DIFFERENT UI'S AND DB'S. BOTH ARE INTERCHANGABLE. </br>
+11- UI: (1 IS TERMINAL BASED) (2 IS GRAPHICAL BASED). </br>
+12- DB: (1 IS SQL BASED) (2 IS TXT BASED). </br>
+13- Change and run to compile. </br>
+14- The terminal UI has some meaning full outputs which basically tells how application is working. Please ignore if you are using Terminal UI. </br>
 
 ----------------------------------------------------------------------------------------------------------------------------------
 :red_circle: If you are facing library issue, make sure to include the libraries included in ‘JARS’ on GitHub repository. :bangbang:  
 
-1. json-20240303.jar 
-2. json-simple-1.1.jar 
-3. mysql-connector-j-8.3.0.jar
+1. json-20240303.jar </br>
+2. json-simple-1.1.jar </br>
+3. mysql-connector-j-8.3.0.jar </br>
 
     
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -38,17 +38,18 @@
 3. L: Although there is no specific inheritance used in the code, but still the interface is interchangeable by the child classes in UI and DB. <br />
 4. I: Interfaces are made to tackle UI and DB. <br />
 5. D: It is the main principle of the project. Both UI and DB are independent of BL.  <br />
+
 ----------------------------------------------------------------------------------------------------------------------------------
 
 
 :red_circle: Design Patterns used: :bangbang: <br />
 
-1. Adapter: JSONExporter.java and JSONConverter.java are the Adapter classes to JSON data.
-2. Facade: the interface of UI and DB hide the mess of implementation. 
-3. Singleton: cache manager is created only once.
-4. Strategy: The application has two UI and DB so application selects a ALGORITHM at run time.
-5. Builder: "CacheManger" is the Director and its asks a Concrete Builder "WeatherAPIHandler.java" to build products like WeatherData, ForcastData and AirpollutionData.
-6.
+1. Adapter: JSONExporter.java and JSONConverter.java are the Adapter classes to JSON data. </br>
+2. Facade: the interface of UI and DB hide the mess of implementation.  </br>
+3. Singleton: cache manager is created only once. </br>
+4. Strategy: The application has two UI and DB so application selects a ALGORITHM at run time. </br>
+5. Builder: "CacheManger" is the Director and its asks a Concrete Builder "WeatherAPIHandler.java" to build products like WeatherData, ForcastData and AirpollutionData. </br>
+
 ----------------------------------------------------------------------------------------------------------------------------------
 
    
